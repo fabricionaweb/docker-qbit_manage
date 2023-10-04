@@ -1,0 +1,4 @@
+#!/usr/bin/execlineb -P
+
+# this will stop the whole container
+/run/s6/basedir/bin/halt
