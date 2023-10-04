@@ -23,10 +23,13 @@ ADD https://github.com/StuffAnThings/qbit_manage.git#v$VERSION ./
 # RUN find . -name "*.patch" -print0 | sort -z | xargs -t -0 -n1 patch -p1 -i
 
 # build stage ==================================================================
-FROM source AS build-backend
+FROM base AS build-backend
 
 # dependencies
 RUN apk add --no-cache build-base python3-dev
+
+# copy requirements
+COPY --from=source /src/requirements.txt ./
 
 # creates python env
 RUN python3 -m venv /opt/venv && \
