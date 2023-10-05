@@ -23,6 +23,7 @@ ADD https://github.com/StuffAnThings/qbit_manage.git#v$VERSION ./
 
 # build stage ==================================================================
 FROM base AS build-backend
+WORKDIR /src
 
 # dependencies
 RUN apk add --no-cache build-base python3-dev
