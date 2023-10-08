@@ -42,8 +42,9 @@ WORKDIR /config
 VOLUME /config
 
 # copy files
+COPY --from=source /src/modules /app/modules
+COPY --from=source /src/qbit_manage.py /src/VERSION /app/
 COPY --from=build-backend /opt/venv /opt/venv
-COPY --from=source /src /app
 COPY ./rootfs /
 
 # runtime dependencies
