@@ -1,17 +1,13 @@
 # syntax=docker/dockerfile:1-labs
 FROM public.ecr.aws/docker/library/alpine:3.18 AS base
-ARG BRANCH
-ARG VERSION
 ENV TZ=UTC
 
 # source stage =================================================================
 FROM base AS source
 WORKDIR /src
 
-# mandatory build-arg
-RUN test -n "$BRANCH" && test -n "$VERSION"
-
 # get and extract source from git
+ARG VERSION
 ADD https://github.com/StuffAnThings/qbit_manage.git#v$VERSION ./
 
 # apply available patches
@@ -19,8 +15,8 @@ ADD https://github.com/StuffAnThings/qbit_manage.git#v$VERSION ./
 # COPY patches ./
 # RUN find . -name "*.patch" -print0 | sort -z | xargs -t -0 -n1 patch -p1 -i
 
-# build stage ==================================================================
-FROM base AS build-backend
+# virtual env stage ============================================================
+FROM base AS build-venv
 WORKDIR /src
 
 # dependencies
@@ -47,7 +43,7 @@ RUN apk add --no-cache tzdata s6-overlay python3 curl
 # copy files
 COPY --from=source /src/modules /app/modules
 COPY --from=source /src/qbit_manage.py /src/VERSION /app/
-COPY --from=build-backend /opt/venv /opt/venv
+COPY --from=build-venv /opt/venv /opt/venv
 COPY ./rootfs /
 
 # creates python env
