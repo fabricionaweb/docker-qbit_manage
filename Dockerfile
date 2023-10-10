@@ -44,7 +44,7 @@ RUN apk add --no-cache tzdata s6-overlay python3 curl
 COPY --from=source /src/modules /app/modules
 COPY --from=source /src/qbit_manage.py /src/VERSION /app/
 COPY --from=build-venv /opt/venv /opt/venv
-COPY ./rootfs /
+COPY ./rootfs/. /
 
 # creates python env
 ENV PATH="/opt/venv/bin:$PATH"
