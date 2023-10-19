@@ -1,7 +1,4 @@
 #!/usr/bin/with-contenv sh
 
-# change chdir
-cd /config
-
-# run with limited permissions
-exec s6-setuidgid $PUID:$PGID python3 /app/qbit_manage.py
+# run (from /usr/local/bin)
+exec qbit_manage
