@@ -7,8 +7,9 @@ WORKDIR /src
 FROM base AS source
 
 # get and extract source from git
+ARG BRANCH
 ARG VERSION
-ADD https://github.com/StuffAnThings/qbit_manage.git#v$VERSION ./
+ADD https://github.com/StuffAnThings/qbit_manage.git#${BRANCH:-v$VERSION} ./
 
 # virtual env stage ============================================================
 FROM base AS build-venv
