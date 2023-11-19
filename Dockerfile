@@ -32,14 +32,15 @@ ENV QBM_DOCKER=true QBT_CONFIG=*.yaml
 WORKDIR /config
 VOLUME /config
 
-# runtime dependencies
-RUN apk add --no-cache tzdata s6-overlay python3 curl
 
 # copy files
 COPY --from=source /src/modules /app/modules
 COPY --from=source /src/qbit_manage.py /src/VERSION /app/
 COPY --from=build-venv /opt/venv /opt/venv
 COPY ./rootfs/. /
+
+# runtime dependencies
+RUN apk add --no-cache tzdata s6-overlay python3 curl
 
 # creates python env
 ENV PATH="/opt/venv/bin:$PATH"
