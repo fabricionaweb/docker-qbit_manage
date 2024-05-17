@@ -1,4 +1,7 @@
 #!/usr/bin/with-contenv sh
 
-# run (from /usr/local/bin)
-exec qbit_manage
+# set CRON using docker env
+echo "${CRON:-"*/15 * * * *"} /usr/local/bin/qbit_manage" | tee -a /etc/crontabs/root
+
+# run crontab on foreground
+exec crond -f
